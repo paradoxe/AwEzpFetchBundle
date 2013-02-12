@@ -1,0 +1,7 @@
+parameters:
+  aw_ezp_fetch.fetcher.class: Aw\Ezp\FetchBundle\Fetch\Fetcher
+
+services:
+  aw_ezp_fetch:
+    class: %aw_ezp_fetch.fetcher.class%
+    arguments: [@ezpublish.api.repository]
