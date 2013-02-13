@@ -273,7 +273,7 @@ eZ Publish CQL (Content Query Language) EBNF Definition
 
     match              ::= (match_compare | match_range | match_enum)
 
-    match_compare      ::= ('EQ' | 'NE' | 'GT' | 'GTE' | 'LT' | 'LTE' | 'LIKE' | 'UNLIKE') delim scalar
+    match_compare      ::= compare_operator delim scalar
 
     match_enum         ::= enum_operator delim array
 
