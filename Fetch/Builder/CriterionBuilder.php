@@ -12,12 +12,12 @@
  */
 
 namespace Aw\Ezp\FetchBundle\Fetch\Builder;
-use Aw\Ezp\FetchBundle\Fetch\Exception\InvalidArgumentException;
-
-use InvalidArgumentException as ApiInvalidArgumentException;
 
 use Aw\Ezp\FetchBundle\Fetch\Utils\CriterionFactory;
 use Aw\Ezp\FetchBundle\Fetch\Utils\CriterionUtils;
+use Aw\Ezp\FetchBundle\Fetch\Exception\InvalidArgumentException;
+use \InvalidArgumentException as ApiInvalidArgumentException;
+
 
 class CriterionBuilder extends Builder
 {

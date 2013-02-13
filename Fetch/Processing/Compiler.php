@@ -14,24 +14,14 @@
 namespace Aw\Ezp\FetchBundle\Fetch\Processing;
 
 use Aw\Ezp\FetchBundle\Fetch\Builder\OptionBuilder;
-
 use Aw\Ezp\FetchBundle\Fetch\Builder\QueryBuilder;
 use Aw\Ezp\FetchBundle\Fetch\Builder\SortClauseBuilder;
 use Aw\Ezp\FetchBundle\Fetch\Builder\LogicalTermBuilder;
 use Aw\Ezp\FetchBundle\Fetch\Builder\CompositeBuilder;
 use Aw\Ezp\FetchBundle\Fetch\Builder\CriterionBuilder;
 
-
-use Aw\Ezp\FetchBundle\Fetch\Exception\InvalidArgumentException;
-
-use eZ\Publish\API\Repository\Values\Content\Query;
-
 class Compiler
 {
-
-    public function __construct()
-    {
-    }
 
     public function compile(Structure $queryStruct)
     {
@@ -101,5 +91,4 @@ class Compiler
 
         return new LogicalTermBuilder($factor, $criteriaBuilder, $path);
     }
-
 }
