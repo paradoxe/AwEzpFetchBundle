@@ -38,7 +38,7 @@ class Fetcher
      */
     public function fetch($queryInput, array $fieldFilters = array(), $filterOnUserPermissions = true)
     {
-        $queryBuilder = $this->processQuery($queryInput, false);
+        $queryBuilder = $this->processQuery($queryInput);
 
         $query = $queryBuilder->build();
 
