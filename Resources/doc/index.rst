@@ -5,8 +5,8 @@ AwEzpFetchBundle
 This bundle is a facade for the search service. It brings a content query language.
 
 
-Example 1 inline Query
-----------------------
+Example 1 compact CQL Query
+---------------------------
 
 .. code-block:: php
 
@@ -17,9 +17,23 @@ Example 1 inline Query
 
     $result = $fetcher->fetch($query);
 
+Example 1 bis equivalent Query in PHP format
+--------------------------------------------
 
-Example 2 inline Query
-----------------------
+.. code-block:: php
+
+   // In controller get the fetch service
+   $fetcher = $this->get('aw_ezp_fetch');
+
+   $query = array('filter' => array('parent_location_id' => array('EQ' => 2)),
+                  'limit' => 20,
+                  'sort' => array('date_modified' => 'DESC'));
+
+   $result = $fetcher->fetch($query);
+
+
+Example 2 compact CQL Query
+---------------------------
 
 .. code-block:: php
 
@@ -31,8 +45,26 @@ Example 2 inline Query
      $result = $fetcher->fetch($query);
 
 
-Example 3 expanded Query
-------------------------
+Example 2 bis equivalent Query in PHP format
+--------------------------------------------
+
+.. code-block:: php
+
+    // In controller get the fetch service
+     $fetcher = $this->get('aw_ezp_fetch');
+
+     $query = array('filter' => array('AND' => array(
+                                                    array('subtree' => array('EQ' => '/1/2')),
+                                                    array('visibility' => array('EQ' => true))
+                                                    )
+                                              ),
+                     'limit' => 20);
+
+     $result = $fetcher->fetch($query);
+
+
+Example 3 expanded CQL Query
+----------------------------
 
 .. code-block:: php
 
@@ -50,16 +82,16 @@ Example 3 expanded Query
                   - full_text: {LIKE 'Press Release*'}
 
     sort: {field.landing_page/name ASC, date_modified DESC}
-    limit: 12
-    offset: 14
+    limit: 5
+    offset: 5
 
     EOS;
 
     $result = $fetcher->fetch($query);
 
 
-Example 3 bis expanded Query (expanded sort)
---------------------------------------------
+Example 3 bis expanded CQL (expanded sort)
+------------------------------------------
 
 .. code-block:: php
 
@@ -80,13 +112,38 @@ Example 3 bis expanded Query (expanded sort)
          field.landing_page/name: ASC
          date_modified: DESC
 
-    limit: 12
-    offset: 14
+    limit: 5
+    offset: 5
 
     EOS;
 
     $result = $fetcher->fetch($query);
 
+
+Example 3 bis equivalent Query in PHP format
+--------------------------------------------
+
+.. code-block:: php
+
+    // In controller get the fetch service
+    $fetcher = $this->get('aw_ezp_fetch');
+
+    $query = array(
+                 'filter' => array(
+                                  'AND' => array(
+                                           array('parent_location_id' => array('IN' => array(2, 60))),
+                                           array('data_metadata.modified' => array('BETWEEN' => array(1355439600, 1359068400))),
+                                           array('visibility' => array('EQ' => true)),
+                                           array('OR' => array(
+                                                          array('field.name' => array('LIKE' => 'News*')),
+                                                          array('full_text' => array('LIKE' => 'Press release*')))))),
+
+                 'sort' => array( 'field.landing_page/name' => 'ASC',
+                                  'date_modified' => 'DESC'),
+                 'limit' => 5,
+                 'offset' => 5);
+
+    $result = $fetcher->fetch($query);
 
 
 Prepared Fetch
@@ -101,6 +158,7 @@ simply limit but for readability of your query you are encouraged to use a disti
    // In controller get the fetch service
    $fetcher = $this->get('aw_ezp_fetch');
 
+   // you can also use php array format insead of CQL
    $query = "{filter: {AND: [subtree: {EQ @subtree}, visibility: {EQ true}]}  , limit: @limit, offset: @offset}";
 
    $preparedFetch = $fetcher->prepare($query);
