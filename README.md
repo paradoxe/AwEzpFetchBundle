@@ -14,7 +14,7 @@ AwEzpFetchBundle brings a content query language for eZ Publish 5.
 // In controller get the fetch service
 $fetcher = $this->get('aw_ezp_fetch');
 
-$query = "{filter {parent_location_id {EQ 2}}, limit 20,sort {date_modified DESC}}";
+$query = "{filter: {parent_location_id {EQ 2}}, limit: 20, sort: {date_modified DESC}}";
 
 $result = $fetcher->fetch($query);
 
@@ -28,7 +28,7 @@ $result = $fetcher->fetch($query);
 // In controller get the fetch service
 $fetcher = $this->get('aw_ezp_fetch');
 
-$query = "{filter {AND [subtree: {EQ '/1/2'}, visibility: {EQ true}]}, limit 20}";
+$query = "{filter: {AND [subtree: {EQ '/1/2'}, visibility: {EQ true}]}, limit: 20}";
 
 $result = $fetcher->fetch($query);
 
@@ -98,7 +98,7 @@ $result = $fetcher->fetch($query);
 // In controller get the fetch service
 $fetcher = $this->get('aw_ezp_fetch');
 
-$query = "{filter {AND [subtree: {EQ @subtree}, visibility: {EQ true}]}  , limit @limit, offset @offset}";
+$query = "{filter: {AND [subtree: {EQ @subtree}, visibility: {EQ true}]}  , limit: @limit, offset: @offset}";
 
 $preparedFetch = $fetcher->prepare($query);
 
