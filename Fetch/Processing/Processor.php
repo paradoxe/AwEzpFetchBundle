@@ -14,9 +14,6 @@
 namespace Aw\Ezp\FetchBundle\Fetch\Processing;
 class Processor
 {
-    const TYPE_YML = 'yml';
-    const TYPE_JSON = 'json';
-    const TYPE_XML = 'xml';
 
     protected $synthesizer;
     protected $parser;

@@ -20,10 +20,6 @@ use Aw\Ezp\FetchBundle\Fetch\Exception\InvalidArgumentException;
 class Synthesizer
 {
 
-    public function __construct()
-    {
-    }
-
     public function synthesize(array $query)
     {
         $path = array();

@@ -12,6 +12,7 @@
  */
 
 namespace Aw\Ezp\FetchBundle\Fetch\Processing;
+
 class Structure implements \Serializable
 {
 

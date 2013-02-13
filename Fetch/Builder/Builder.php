@@ -12,6 +12,7 @@
  */
 
 namespace Aw\Ezp\FetchBundle\Fetch\Builder;
+
 abstract class Builder implements BuilderInterface
 {
 
