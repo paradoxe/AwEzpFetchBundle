@@ -9,7 +9,7 @@
 				"homepage" : "http://www.amiralweb.com"
 			}],
 	"require" : {
-		"ezsystems/ezpublish5-standard" : "5.*"
+		"ezsystems/ezpublish-kernel" : "dev-master"
 	},
 
 	"minimum-stability" : "dev",
