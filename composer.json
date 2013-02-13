@@ -3,13 +3,13 @@
 	"type" : "ezpublish-bundle",
 	"description" : "A content query language for ezpublish 5",
 	"keywords" : ["fetch", "query", "ezpublish5"],
-	"license" : "Apache-2.0",
+	"license" : "MIT",
 	"authors" : [{
 				"name" : "Mohamed Karnichi",
 				"homepage" : "http://www.amiralweb.com"
 			}],
 	"require" : {
-		"ezsystems/ezpublish5-standard" : "dev-master"
+		"ezsystems/ezpublish5-standard" : "5.*"
 	},
 
 	"minimum-stability" : "dev",
