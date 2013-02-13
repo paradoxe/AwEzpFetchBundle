@@ -19,6 +19,8 @@ class CompositeBuilder extends Builder
 
     public function __construct(array $builders)
     {
+        $this->builders = array();
+
         foreach($builders as $builder)
         {
             $this->add($builder);

@@ -21,6 +21,7 @@ abstract class Builder implements BuilderInterface
     public function serialize()
     {
         $data = get_object_vars($this);
+
         return serialize($data);
     }
 
