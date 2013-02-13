@@ -31,6 +31,7 @@ class LogicalTermBuilder extends Builder
     public function build(array $parameters = array())
     {
         $criteria = $this->criteriaBuilder->build($parameters);
+
         return CriterionFactory::buildLogicalTerm($this->factor, $criteria);
     }
 }

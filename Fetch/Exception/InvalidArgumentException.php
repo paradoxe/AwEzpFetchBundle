@@ -20,6 +20,7 @@ class InvalidArgumentException extends Exception
         $this->setGiven($given);
         $this->setExpected($expected);
         $this->setPath($path);
+
         parent::__construct($message);
     }
 

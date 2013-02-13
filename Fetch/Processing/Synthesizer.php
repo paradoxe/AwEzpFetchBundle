@@ -176,10 +176,12 @@ class Synthesizer
     protected static function assertIsMapStructure($value, $minLength = null, $maxLength = null, $errorMessage, array $path)
     {
         if (true !== $result = ArrayUtils::isMap($value, $minLength, $maxLength)) {
+
             $expected = static::buildExpectedStructureString('Map (associative array)', $minLength, $maxLength);
             $e = new InvalidQueryStructureException($errorMessage, $value, $expected, $path);
 
             if (($result == ArrayUtils::E_TYPE)) {
+
                 $e->setGivenType('Map of Length ' . count($value));
             }
 
@@ -190,6 +192,7 @@ class Synthesizer
     protected static function assertIsListStructure($value, $minLength = null, $maxLength = null, $errorMessage, array $path)
     {
         if (true !== $result = ArrayUtils::isIndexedArray($value, $minLength, $maxLength)) {
+
             $expected = static::buildExpectedStructureString('Sequence (indexed array)', $minLength, $maxLength);
 
             $e = new InvalidQueryStructureException($errorMessage, $value, $expected, $path);
@@ -205,9 +208,9 @@ class Synthesizer
     protected static function assertIsScalar($value, $errorMessage, $path)
     {
         if (!is_scalar($value)) {
+
             throw new InvalidArgumentException($errorMessage, $value, 'Scalar', $path);
         }
-
     }
 
     protected static function buildExpectedStructureString($type, $minLength = null, $maxLength = null)
@@ -215,10 +218,12 @@ class Synthesizer
         $expected = "$type, ";
         if (($minLength !== null) || ($maxLength !== null)) {
             if (($minLength !== null) && ($maxLength !== null)) {
+
                 $expected .= ($minLength == $maxLength) ? sprintf('containing %d element%s', $minLength, ($minLength > 1) ? 's' : '')
                         : sprintf('containing at least %d element%s and at most %d element%s', $minLength, ($minLength > 1) ? 's' : '', $maxLength,
                                 ($maxLength > 1) ? 's' : '');
             } else {
+
                 $expected .= ($minLength !== null) ? sprintf('containing at least %d element%s', $minLength, ($minLength > 1) ? 's' : '')
                         : sprintf('containing at most %d element%s', $minLength, ($maxLength > 1) ? 's' : '');
             }

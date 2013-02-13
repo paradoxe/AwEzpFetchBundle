@@ -44,6 +44,7 @@ class Processor
         $parsed = $this->parse($queryString);
         $struct = $this->synthesize($parsed);
         $query = $this->build($struct);
+
         return $query;
     }
 

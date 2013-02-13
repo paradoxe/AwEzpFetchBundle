@@ -18,8 +18,7 @@ class InvalidQueryStructureException extends InvalidArgumentException
     public function __construct($message, $given, $expected = null, array $path = null, $givenType = null)
     {
         $this->setGivenType($givenType);
+
         parent::__construct($message, $given, $expected, $path);
-
     }
-
 }
