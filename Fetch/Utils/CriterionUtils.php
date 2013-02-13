@@ -13,13 +13,11 @@
 
 namespace Aw\Ezp\FetchBundle\Fetch\Utils;
 
-
 use Aw\Ezp\FetchBundle\Fetch\Utils\ArrayUtils;
 use Aw\Ezp\FetchBundle\Fetch\Exception\InvalidArgumentException;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator as Op;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion as Cr;
-
 
 class CriterionUtils
 {
@@ -89,7 +87,7 @@ class CriterionUtils
             $operator = self::$negativeOpertorsMap[$operator];
         }
 
-        $operator;
+       return $operator;
     }
 
     public static function assertIsCriterionIdentifier($identifier, array $path = array())

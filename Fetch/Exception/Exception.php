@@ -36,7 +36,7 @@ class Exception extends \RuntimeException
         $message = sprintf('%s %s %s %s', $error, $path, $expected, $given);
 
         if (PHP_SAPI === 'cli') {
-            $message ="\n".$message."\n\n";
+            $message = "\n" . $message . "\n\n";
         }
 
         return $message;
@@ -94,23 +94,24 @@ class Exception extends \RuntimeException
 
     protected function getFormatedError()
     {
-        return sprintf('%s ERROR: %s',PHP_EOL, $this->error);
+        return sprintf('%s ERROR: %s', PHP_EOL, $this->error);
     }
 
     protected function getFormatedPath()
     {
-        return empty($this->path) ? '' : sprintf('%s PATH: |-> %s',PHP_EOL, implode(' -> ', (array) $this->path));
+        return empty($this->path) ? '' : sprintf('%s PATH: |-> %s', PHP_EOL, implode(' -> ', (array) $this->path));
     }
 
     protected function getFormatedExpected()
     {
-        return empty($this->expected) ? '' : sprintf(' %s EXPECTED: %s',PHP_EOL, implode(' | ', array_map('json_encode', (array) $this->expected)));
+        return empty($this->expected) ? '' : sprintf(' %s EXPECTED: %s', PHP_EOL, implode(' | ', array_map('json_encode', (array) $this->expected)));
     }
 
     protected function getFormatedGiven()
     {
         $format = empty($this->givenType) ? gettype($this->given) : $this->givenType;
-        return sprintf('%s GIVEN : (%s) %s', PHP_EOL, $format, json_encode($this->given) );
+
+        return sprintf('%s GIVEN : (%s) %s', PHP_EOL, $format, json_encode($this->given));
     }
 
 }

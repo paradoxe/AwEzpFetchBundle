@@ -55,12 +55,14 @@ class Compiler
     protected function prepareLimit($limit)
     {
         $path = array('limit');
+
         return new OptionBuilder('limit', 'integer', $limit, $path);
     }
 
     protected function prepareOffset($offset)
     {
         $path = array('offset');
+
         return new OptionBuilder('offset', 'integer', $offset, $path);
     }
 
