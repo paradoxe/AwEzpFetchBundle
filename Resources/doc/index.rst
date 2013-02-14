@@ -198,6 +198,7 @@ Query Structure
 If you are familiar with EBNF, check the EBNF definition.
 
 Terminology:
+
 - Map: associative array
 - Sequence: indexed array
 
