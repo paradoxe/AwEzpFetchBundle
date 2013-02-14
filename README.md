@@ -44,7 +44,7 @@ $query = <<<EOS
 filter:
       AND:
            - parent_location_id: {IN [2, 60]}
-           - data_metadata.modified: {BETWEEN [2012-12-14, 2013-01-25]}
+           - date_metadata.modified: {BETWEEN [2012-12-14, 2013-01-25]}
            - visibility: {EQ  true}
            - OR:
               - field.name: {EQ News}
@@ -72,7 +72,7 @@ $query = <<<EOS
 filter:
       AND:
            - parent_location_id: {IN [2, 60]}
-           - data_metadata.modified: {BETWEEN [2012-12-14, 2013-01-25]}
+           - datemetadata.modified: {BETWEEN [2012-12-14, 2013-01-25]}
            - visibility: {EQ  true}
            - OR:
               - field.name: {EQ News}
