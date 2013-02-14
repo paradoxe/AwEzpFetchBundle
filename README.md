@@ -3,7 +3,41 @@
 
 ## Presentation
 
-AwEzpFetchBundle brings a content query language for eZ Publish 5.
+AwEzpFetchBundle is a facade for the search service. It brings a content query language for eZ Publish 5.
+
+## Bundle documentation
+
+The bundle documentation is available in `Resources/doc/index.rst`
+
+## Installation
+
+1. With Composer add the following to your `composer.json` file, then run composer `update` command
+
+```json
+
+    // composer.json
+    {
+        // ...
+        require: {
+            // ...
+            "aw/ezp-fetch-bundle": "dev-master",
+        }
+    }
+```
+
+2. Register AwEzpFetchBundle by adding following to `EzPublishKernel.php` file:
+
+```php
+
+    <?php
+
+    // EzPublishKernel.php
+    $bundles = array(
+        // ...
+        new Aw\Ezp\FetchBundle\AwEzpFetchBundle(),
+        // ...
+    );
+```
 
 ## Usage examples
 
@@ -72,7 +106,7 @@ $query = <<<EOS
 filter:
       AND:
            - parent_location_id: {IN [2, 60]}
-           - datemetadata.modified: {BETWEEN [2012-12-14, 2013-01-25]}
+           - date_metadata.modified: {BETWEEN [2012-12-14, 2013-01-25]}
            - visibility: {EQ  true}
            - OR:
               - field.name: {EQ News}
@@ -115,10 +149,5 @@ $preparedFetch->bindParam('@offset', 20);
 $result = $preparedFetch->fetch();
 
 ```
-
-## Bundle documentation
-
-The bundle documentation is available in `Resources/doc/index.rst`
-
 ## License
 The code is released under the MIT License. You can find in `Resources/meta/LICENCE`
