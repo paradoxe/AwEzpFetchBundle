@@ -12,12 +12,10 @@
  */
 
 namespace Aw\Ezp\FetchBundle\Fetch\Builder;
-
 use Aw\Ezp\FetchBundle\Fetch\Utils\CriterionFactory;
 use Aw\Ezp\FetchBundle\Fetch\Utils\CriterionUtils;
 use Aw\Ezp\FetchBundle\Fetch\Exception\InvalidArgumentException;
 use \InvalidArgumentException as ApiInvalidArgumentException;
-
 
 class CriterionBuilder extends Builder
 {
@@ -82,7 +80,10 @@ class CriterionBuilder extends Builder
         $className = $this->className;
 
         try {
+
             $criterion = $className::createFromQueryBuilder($this->target, $this->apiOperator, $operand);
+
+            return $this->isExclude ? CriterionFactory::buildNot($criterion) : $criterion;
 
         } catch (ApiInvalidArgumentException $e) {
 
@@ -90,7 +91,6 @@ class CriterionBuilder extends Builder
             $error = $message;
             $path = $this->path;
             $expected = null;
-
 
             if (strpos($message, "Operator") === 0) { //Operator Error
 
@@ -108,9 +108,9 @@ class CriterionBuilder extends Builder
                 $expected = $expectedOperators;
                 $path = array_slice($this->path, 0, count($this->path) - 1);
 
-            } elseif (strpos($message, "value") !== false) {  //Operand (value) Error
+            } elseif (strpos($message, "value") !== false) { //Operand (value) Error
 
-                $given = ($operand != $this->normalizedOperand) ? $operand : $this->givenOperand;
+                $given = ($operand != $this->normalizedOperand) ? $operand : $this->givenOperand; // for parametred params
 
             } elseif (strpos($message, 'Unknown') === 0) { //Target Error
 
@@ -125,7 +125,5 @@ class CriterionBuilder extends Builder
 
             throw new InvalidArgumentException($error, $given, $expected, $path);
         }
-
-        return $this->isExclude ? CriterionFactory::buildNot($criterion) : $criterion;
     }
 }
