@@ -52,15 +52,15 @@ class Fetcher
      *
      * @return \Aw\Ezp\FetchBundle\Fetch\PreparedFetcher
      */
-    public function prepare($queryString)
+    public function prepare($queryInput)
     {
-        $queryBuilder = $this->queryProcessor->process($queryString);
+        $queryBuilder = $this->processQuery($queryInput);
 
         return new PreparedFetcher($queryBuilder, $this->repository);
     }
 
-    protected function processQuery($queryString)
+    protected function processQuery($queryInput)
     {
-        return $this->queryProcessor->process($queryString);
+        return $this->queryProcessor->process($queryInput);
     }
 }

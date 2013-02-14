@@ -16,32 +16,26 @@ use eZ\Publish\API\Repository\Values\Content\Query;
 
 class QueryBuilder extends Builder
 {
-    public $preparedSort;
-    public $preparedLimt;
-    public $preparedOffset;
-    public $preparedFilter;
+    public $filterBuilder;
+    public $sortBuilder;
+    public $offsetBuilder;
+    public $limtBuilder;
 
-    public function __construct(BuilderInterface $preparedFilter, BuilderInterface $preparedSort, BuilderInterface $preparedOffset, BuilderInterface $preparedLimt)
+    public function __construct(BuilderInterface $filterBuilder, BuilderInterface $sortBuilder, BuilderInterface $offsetBuilder, BuilderInterface $limtBuilder)
     {
-        $this->preparedFilter = $preparedFilter;
-        $this->preparedSort = $preparedSort;
-        $this->preparedOffset = $preparedOffset;
-        $this->preparedLimt = $preparedLimt;
+        $this->filterBuilder = $filterBuilder;
+        $this->sortBuilder = $sortBuilder;
+        $this->offsetBuilder = $offsetBuilder;
+        $this->limtBuilder = $limtBuilder;
     }
 
     public function build(array $parameters = array())
     {
-        $filter = $this->preparedFilter->build($parameters);
-        $sort = $this->preparedSort->build($parameters);
-        $offset = $this->preparedOffset->build($parameters);
-        $limit = $this->preparedLimt->build($parameters);
-
         $query = new Query();
-
-        $query->criterion = $filter;
-        $query->sortClauses = $sort;
-        $query->limit = $limit;
-        $query->offset = $offset;
+        $query->criterion = $this->filterBuilder->build($parameters);
+        $query->sortClauses = $this->sortBuilder->build($parameters);
+        $query->offset = $this->offsetBuilder->build($parameters);
+        $query->limit = $this->limtBuilder->build($parameters);
 
         return $query;
     }
