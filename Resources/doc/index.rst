@@ -75,7 +75,7 @@ Example 3 expanded CQL Query
     filter:
           AND:
                - parent_location_id: {IN [2, 60]}
-               - data_metadata.modified: {BETWEEN [2012-12-14, 2013-01-25]}
+               - date_metadata.modified: {BETWEEN [2012-12-14, 2013-01-25]}
                - visibility: {EQ  true}
                - OR:
                   - field.name: {EQ News}
@@ -102,7 +102,7 @@ Example 3 bis expanded CQL (expanded sort)
     filter:
           AND:
                - parent_location_id: {IN [2, 60]}
-               - data_metadata.modified: {BETWEEN [2012-12-14, 2013-01-25]}
+               - date_metadata.modified: {BETWEEN [2012-12-14, 2013-01-25]}
                - visibility: {EQ  true}
                - OR:
                   - field.name: {EQ News}
@@ -132,7 +132,7 @@ Example 3 bis equivalent Query in PHP format
                  'filter' => array(
                                   'AND' => array(
                                            array('parent_location_id' => array('IN' => array(2, 60))),
-                                           array('data_metadata.modified' => array('BETWEEN' => array(1355439600, 1359068400))),
+                                           array('date_metadata.modified' => array('BETWEEN' => array(1355439600, 1359068400))),
                                            array('visibility' => array('EQ' => true)),
                                            array('OR' => array(
                                                           array('field.name' => array('LIKE' => 'News*')),
