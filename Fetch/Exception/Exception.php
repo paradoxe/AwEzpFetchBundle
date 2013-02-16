@@ -94,7 +94,9 @@ class Exception extends \RuntimeException
 
     protected function getFormatedError()
     {
-        return sprintf('%s ERROR: %s', PHP_EOL, $this->error);
+        $title = "FETCH EXCEPTION\n";
+        $title .= "===============\n";
+        return sprintf('%s%s ERROR: %s', $title, PHP_EOL, $this->error);
     }
 
     protected function getFormatedPath()

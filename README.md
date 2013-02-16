@@ -9,6 +9,8 @@ AwEzpFetchBundle is a facade for the search service. It brings a content query l
 
 The bundle documentation is available in `Resources/doc/index.rst`
 
+[Read the Documentation](https://github.com/amiralweb/AwEzpFetchBundle/blob/master/Resources/doc/index.rst)
+
 ## Installation
 
 1. With Composer add the following to your `composer.json` file, then run composer `update` command:
