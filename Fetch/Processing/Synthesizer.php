@@ -81,8 +81,8 @@ class Synthesizer
 
         $identifier = key($value);
         $path[] = $identifier;
-
         $match = $value[$identifier];
+
         $criterion = array();
         $criterion['criterion']['identifier'] = $identifier;
         $criterion['criterion']['match'] = $this->synthesizeCriterionMatch($match, $path);
@@ -96,7 +96,6 @@ class Synthesizer
 
         $operator = key($value);
         $path[] = $operator;
-
         $operand = $value[$operator];
 
         $match = array();
@@ -111,9 +110,7 @@ class Synthesizer
         static::assertIsMapStructure($value, 1, 1, 'Invalid Logical Term Structure', $path);
 
         $factor = key($value);
-
         $path[] = $factor;
-
         $criteria = $value[$factor];
 
         $logicalTerm = array();

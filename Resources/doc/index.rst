@@ -1,194 +1,31 @@
 AwEzpFetchBundle
 ================
 
+This bundle brings a content query language.
 
-This bundle is a facade for the search service. It brings a content query language.
 
+Introduction
+------------
 
-Example 1 compact CQL Query
----------------------------
-
-.. code-block:: php
-
-    // In controller get the fetch service
-    $fetcher = $this->get('aw_ezp_fetch');
-
-    $query = "{filter: {parent_location_id {EQ 2}}, limit: 20, sort: {date_modified DESC}}";
-
-    $result = $fetcher->fetch($query);
-
-Example 1 bis equivalent Query in PHP format
---------------------------------------------
+This bundle is a facade for the search service. It simplifies content querying.
 
 .. code-block:: php
 
-   // In controller get the fetch service
-   $fetcher = $this->get('aw_ezp_fetch');
-
-   $query = array('filter' => array('parent_location_id' => array('EQ' => 2)),
-                  'limit' => 20,
-                  'sort' => array('date_modified' => 'DESC'));
-
-   $result = $fetcher->fetch($query);
-
-
-Example 2 compact CQL Query
----------------------------
-
-.. code-block:: php
-
-    // In controller get the fetch service
-     $fetcher = $this->get('aw_ezp_fetch');
-
-     $query = "{filter: {AND: [subtree: {EQ '/1/2'}, visibility: {EQ true}]}, limit: 20}";
-
-     $result = $fetcher->fetch($query);
-
-
-Example 2 bis equivalent Query in PHP format
---------------------------------------------
-
-.. code-block:: php
-
-    // In controller get the fetch service
-     $fetcher = $this->get('aw_ezp_fetch');
-
-     $query = array('filter' => array('AND' => array(
-                                                    array('subtree' => array('EQ' => '/1/2')),
-                                                    array('visibility' => array('EQ' => true))
-                                                    )
-                                              ),
-                     'limit' => 20);
-
-     $result = $fetcher->fetch($query);
-
-
-Example 3 expanded CQL Query
-----------------------------
-
-.. code-block:: php
-
-    // In controller get the fetch service
-    $fetcher = $this->get('aw_ezp_fetch');
-
-    $query = <<<EOS
-    filter:
-          AND:
-               - parent_location_id: {IN [2, 60]}
-               - date_metadata.modified: {BETWEEN [2012-12-14, 2013-01-25]}
-               - visibility: {EQ  true}
-               - OR:
-                  - field.name: {EQ News}
-                  - full_text: {LIKE 'Press Release*'}
-
-    sort: {field.landing_page/name ASC, date_modified DESC}
-    limit: 5
-    offset: 5
-
-    EOS;
-
-    $result = $fetcher->fetch($query);
-
-
-Example 3 bis expanded CQL (expanded sort)
-------------------------------------------
-
-.. code-block:: php
-
-    // In controller get the fetch service
-    $fetcher = $this->get('aw_ezp_fetch');
-
-    $query = <<<EOS
-    filter:
-          AND:
-               - parent_location_id: {IN [2, 60]}
-               - date_metadata.modified: {BETWEEN [2012-12-14, 2013-01-25]}
-               - visibility: {EQ  true}
-               - OR:
-                  - field.name: {EQ News}
-                  - full_text: {LIKE Press Release*}
-
-    sort:
-         field.landing_page/name: ASC
-         date_modified: DESC
-
-    limit: 5
-    offset: 5
-
-    EOS;
-
-    $result = $fetcher->fetch($query);
-
-
-Example 3 bis equivalent Query in PHP format
---------------------------------------------
-
-.. code-block:: php
-
-    // In controller get the fetch service
-    $fetcher = $this->get('aw_ezp_fetch');
-
-    $query = array(
-                 'filter' => array(
-                                  'AND' => array(
-                                           array('parent_location_id' => array('IN' => array(2, 60))),
-                                           array('date_metadata.modified' => array('BETWEEN' => array(1355439600, 1359068400))),
-                                           array('visibility' => array('EQ' => true)),
-                                           array('OR' => array(
-                                                          array('field.name' => array('LIKE' => 'News*')),
-                                                          array('full_text' => array('LIKE' => 'Press release*')))))),
-
-                 'sort' => array( 'field.landing_page/name' => 'ASC',
-                                  'date_modified' => 'DESC'),
-                 'limit' => 5,
-                 'offset' => 5);
-
-    $result = $fetcher->fetch($query);
-
-
-Prepared Fetch
---------------
-
-The concept is the same as for the PDO prepared statements. You prepare the query then you can bind parameters.
-Parameter name can be any string. For example for the limit option you can use '@limit' or '?limit?' or '@l@' or
-simply limit but for readability of your query you are encouraged to use a distinctive holder: i usualy prepend the holder with @ character.
-
-.. code-block:: php
-
-   // In controller get the fetch service
-   $fetcher = $this->get('aw_ezp_fetch');
-
-   // you can also use php array format insead of CQL
-   $query = "{filter: {AND: [subtree: {EQ @subtree}, visibility: {EQ true}]}  , limit: @limit, offset: @offset}";
-
-   $preparedFetch = $fetcher->prepare($query);
-
-   $preparedFetch->bindParam('@subtree', '/1/2');
-   $preparedFetch->bindParam('@offset', 0);
-   $preparedFetch->bindParam('@limit', 20);
-
-   $result = $preparedFetch->fetch();
-
-   #you can rebind any parameter and refetch
-
-   $preparedFetch->bindParam('@offset', 20);
-
-   $result = $preparedFetch->fetch();
+    // example
+    $result = $container->get('aw_ezp_fetch')->fetch("{filter: {parent_location_id {EQ 2}}, limit: 20, sort: {date_modified DESC}}");
 
 
 CQL (Content Query Langage)
 ---------------------------
 
-The fetch use CQL (Content Query Langage). It's YAML based structure. Take a look to the EBNF Definition.
+The fetch queries could be either a CQL (Content Query Langage) string or  in php array format.
 
 Why Yaml?
 ~~~~~~~~~
 
 - Readability: Inline and expanded (multiline) representations
-- The great Symfony2 parser
+- The great Symfony2 Yaml Component (with literal Boolean and Date detection and parse)
 - Query could be stored in yml configuration file and directly used in the fetcher.
-- Literal Boolean and Date detection and parse
-
 
 Check http://symfony.com/doc/current/components/yaml/yaml_format.html
 
@@ -210,7 +47,7 @@ A Query is a Map structure composed by:
 - limit (optionnal)
 - offset (optionnal)
 
-We can try to represent the format with php langage, so you can understand how to write the query in Yaml format
+To understand how to write the query in CQL format, here is the equivalent usage with php arrays
 
 .. code-block:: php
 
@@ -230,9 +67,6 @@ We can try to represent the format with php langage, so you can understand how t
 
    $sort = array($sort_clause_identifier => $sort_direction, $sort_clause_identifier2 => $sort_direction, $sort_clause_identifier3 => $sort_direction);
    $sort_direction = 'ASC' | 'DESC'; # Case sensitive
-
-You can alsow just pass the $query array to the fetch service as parameter instead of the CQL.
-
 
 CRITERION IDENTIFIERS
 ---------------------
@@ -282,18 +116,34 @@ Special case of Field. We append the target to the identifier using a dot as sep
 MATCH OPERATORS:
 ----------------
 
-- EQ
-- NE ( Treated as NOT EQ)
-- GT
-- GTE
-- LT
-- LTE
-- LIKE
-- UNLIKE (Treated as NOT LIKE)
-- IN (the operand should be a sequence with at least one scalar element)
-- NIN (Treated as NOT IN)
-- BETWEEN (the operand should be a sequence with exactly two scalars elements)
-- OUTSIDE (Treated as NOT BETWEEN)
++----------+--------------+----------------------------------------------+
+| Operator | Operand Type | Comments                                     |
++==========+==============+==============================================+
+| EQ       | scalar       |                                              |
++----------+--------------+----------------------------------------------+
+| NE       | scalar       | Treated as NOT EQ                            |
++----------+--------------+----------------------------------------------+
+| GT       | scalar       |                                              |
++----------+--------------+----------------------------------------------+
+| GTE      | scalar       |                                              |
++----------+--------------+----------------------------------------------+
+| LT       | scalar       |                                              |
++----------+--------------+----------------------------------------------+
+| LTE      | scalar       |                                              |
++----------+--------------+----------------------------------------------+
+| LIKE     | scalar       |                                              |
++----------+--------------+----------------------------------------------+
+| UNLIKE   | scalar       | Treated as NOT LIKE                          |
++----------+--------------+----------------------------------------------+
+| IN       | sequence     | Sequence should contain at least one element |
++----------+--------------+----------------------------------------------+
+| NIN      | sequence     | Treated as NOT IN                            |
++----------+--------------+----------------------------------------------+
+| BETWEEN  | sequence     | Sequence with exactly two scalars elements   |
+|          |              | representing (left, right) ragne bounds      |
++----------+--------------+----------------------------------------------+
+| OUTSIDE  | sequence     | Treated as NOT BETWEEN                       |
++----------+--------------+----------------------------------------------+
 
 LOGICAL FACTORS:
 ----------------
@@ -304,10 +154,8 @@ LOGICAL FACTORS:
 - NOR (Treated as NOT OR)
 
 
-
-
-eZ Publish CQL (Content Query Language) EBNF Definition
--------------------------------------------------------
+Fetch CQL (Content Query Language) EBNF Definition
+--------------------------------------------------
 
 .. code-block:: ebnf
 
@@ -371,4 +219,183 @@ eZ Publish CQL (Content Query Language) EBNF Definition
     space              ::= ' '
 
     new_line           ::= '\n'
+
+
+
+Usage samples
+-------------
+
+Example 1 compact CQL Query
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: php
+
+    // In controller get the fetch service
+    $fetcher = $this->get('aw_ezp_fetch');
+
+    $query = "{filter: {parent_location_id {EQ 2}}, limit: 20, sort: {date_modified DESC}}";
+
+    $result = $fetcher->fetch($query);
+
+Example 1 bis equivalent Query in PHP format
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: php
+
+   // In controller get the fetch service
+   $fetcher = $this->get('aw_ezp_fetch');
+
+   $query = array('filter' => array('parent_location_id' => array('EQ' => 2)),
+                  'limit' => 20,
+                  'sort' => array('date_modified' => 'DESC'));
+
+   $result = $fetcher->fetch($query);
+
+
+Example 2 compact CQL Query
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: php
+
+    // In controller get the fetch service
+     $fetcher = $this->get('aw_ezp_fetch');
+
+     $query = "{filter: {AND: [subtree: {EQ '/1/2/60'}, visibility: {EQ true}]}, limit: 20}";
+
+     $result = $fetcher->fetch($query);
+
+
+Example 2 bis equivalent Query in PHP format
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: php
+
+    // In controller get the fetch service
+     $fetcher = $this->get('aw_ezp_fetch');
+
+     $query = array('filter' => array('AND' => array(
+                                                    array('subtree' => array('EQ' => '/1/2/60')),
+                                                    array('visibility' => array('EQ' => true))
+                                                    )
+                                              ),
+                     'limit' => 20);
+
+     $result = $fetcher->fetch($query);
+
+
+Example 3 expanded CQL Query
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: php
+
+    // In controller get the fetch service
+    $fetcher = $this->get('aw_ezp_fetch');
+
+    $query = <<<EOS
+    filter:
+          AND:
+               - parent_location_id: {IN [2, 60]}
+               - date_metadata.modified: {BETWEEN [2012-12-14, 2013-01-25]}
+               - visibility: {EQ  true}
+               - OR:
+                  - field.name: {EQ News}
+                  - full_text: {LIKE 'Press Release*'}
+
+    sort: {field.landing_page/name ASC, date_modified DESC}
+    limit:  5
+    offset: 5
+
+    EOS;
+
+    $result = $fetcher->fetch($query);
+
+
+Example 3 bis expanded CQL (expanded sort)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: php
+
+    // In controller get the fetch service
+    $fetcher = $this->get('aw_ezp_fetch');
+
+    $query = <<<EOS
+    filter:
+          AND:
+               - parent_location_id: {IN [2, 60]}
+               - date_metadata.modified: {BETWEEN [2012-12-14, 2013-01-25]}
+               - visibility: {EQ  true}
+               - OR:
+                  - field.name: {EQ News}
+                  - full_text:  {LIKE Press Release*}
+
+    sort:
+         field.landing_page/name: ASC
+         date_modified: DESC
+
+    limit:  5
+    offset: 5
+
+    EOS;
+
+    $result = $fetcher->fetch($query);
+
+
+Example 3 bis equivalent Query in PHP format
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: php
+
+    // In controller get the fetch service
+    $fetcher = $this->get('aw_ezp_fetch');
+
+    $query = array(
+                 'filter' => array(
+                                  'AND' => array(
+                                           array('parent_location_id' => array('IN' => array(65, 60))),
+                                           array('date_metadata.modified' => array('BETWEEN' => array(1355439600, 1359068400))),
+                                           array('visibility' => array('EQ' => true)),
+                                           array('OR' => array(
+                                                          array('field.name' => array('EQ' => 'News')),
+                                                          array('full_text' => array( 'LIKE' => 'Press release*')))))),
+
+                 'sort'   => array( 'field.landing_page/name' => 'ASC',
+                                  'date_modified' => 'DESC'),
+                 'limit'  => 5,
+                 'offset' => 5);
+
+    $result = $fetcher->fetch($query);
+
+
+Prepared Fetch
+~~~~~~~~~~~~~~
+
+The concept is the same as for the PDO prepared statements. You prepare the query then you can bind parameters.
+Parameter name can be any string. For example for the limit option you can use '@limit' or '?limit?' or '@l@' or
+simply limit but for readability of your query you are encouraged to use a distinctive holder: i usualy prepend the holder with @ character.
+
+.. code-block:: php
+
+   // In controller get the fetch service
+   $fetcher = $this->get('aw_ezp_fetch');
+
+   // you can also use php array format insead of CQL
+   $query = "{filter: {AND: [subtree: {EQ @subtree}, visibility: {EQ true}]}  , limit: @limit, offset: @offset}";
+
+   $preparedFetch = $fetcher->prepare($query);
+
+   $preparedFetch->bindParam('@subtree', '/1/2/60');
+   $preparedFetch->bindParam('@offset', 0);
+   $preparedFetch->bindParam('@limit', 20);
+
+   $result = $preparedFetch->fetch();
+
+   // you can also chain parameters binding
+   $result = $preparedFetch->bindParam('@subtree', '/1/2/60')->bindParam('@offset', 0)->bindParam('@limit', 20)->fetch();
+
+   // you can rebind any parameter and refetch
+   $result = $preparedFetch->bindParam('@offset', 20)->fetch();
+
+   // If needed you can reset all parameters before binding new ones
+   $result = $preparedFetch->reset()->bindParam('@subtree', '/1/2/60')->bindParam('@offset', 20)->bindParam('@limit', 30)->fetch();
+
 
