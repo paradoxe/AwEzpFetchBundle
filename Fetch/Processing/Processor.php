@@ -43,9 +43,9 @@ class Processor
     {
         $parsed = $this->parse($queryString);
         $struct = $this->synthesize($parsed);
-        $query = $this->build($struct);
+        $queryBuilder = $this->compile($struct);
 
-        return $query;
+        return $queryBuilder;
     }
 
     protected function parse($input)
@@ -58,7 +58,7 @@ class Processor
         return $this->synthesizer->synthesize($input);
     }
 
-    protected function build(Structure $queryStruct)
+    protected function compile(Structure $queryStruct)
     {
         return $this->compiler->compile($queryStruct);
     }

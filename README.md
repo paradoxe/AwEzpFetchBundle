@@ -11,33 +11,30 @@ The bundle documentation is available in `Resources/doc/index.rst`
 
 ## Installation
 
-1. With Composer add the following to your `composer.json` file, then run composer `update` command
+1. With Composer add the following to your `composer.json` file, then run composer `update` command:
 
-```json
+    ```json
 
-    // composer.json
-    {
-        // ...
-        require: {
-            // ...
-            "aw/ezp-fetch-bundle": "dev-master",
+        {
+            require: {
+                "aw/ezp-fetch-bundle": "dev-master",
+            }
         }
-    }
-```
+    ```
 
 2. Register AwEzpFetchBundle by adding following to `EzPublishKernel.php` file:
 
-```php
+    ```php
 
-    <?php
+        <?php
 
-    // EzPublishKernel.php
-    $bundles = array(
-        // ...
-        new Aw\Ezp\FetchBundle\AwEzpFetchBundle(),
-        // ...
-    );
-```
+        // EzPublishKernel.php
+        $bundles = array(
+            // ...
+            new Aw\Ezp\FetchBundle\AwEzpFetchBundle(),
+            // ...
+        );
+    ```
 
 ## Usage examples
 

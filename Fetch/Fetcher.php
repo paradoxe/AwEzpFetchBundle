@@ -29,6 +29,8 @@ class Fetcher
     /**
      * Finds content objects for the given query.
      *
+     * @param mixed $queryInput CQL query string or query parameters array
+     *
      * @param array $fieldFilters - a map of filters for the returned fields.
      *         (see eZ\Publish\API\Repository\SearchService)
      * @param boolean $filterOnUserPermissions if true only the objects which is the user allowed to read are returned.
@@ -38,17 +40,15 @@ class Fetcher
      */
     public function fetch($queryInput, array $fieldFilters = array(), $filterOnUserPermissions = true)
     {
-        $queryBuilder = $this->processQuery($queryInput);
-
-        $query = $queryBuilder->build();
+        $query = $this->processQuery($queryInput)->build();
 
         return $this->repository->getSearchService()->findContent($query, $fieldFilters, $filterOnUserPermissions);
     }
 
     /**
-     * Finds content objects for the given query.
+     * Returns preparedFetcher for the given query input.
      *
-     * @param String CQL query or array
+     * @param mixed $queryInput CQL query string or query parameters array
      *
      * @return \Aw\Ezp\FetchBundle\Fetch\PreparedFetcher
      */
