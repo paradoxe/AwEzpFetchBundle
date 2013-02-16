@@ -1,13 +1,10 @@
 AwEzpFetchBundle
 ================
 
-This bundle brings a content query language.
-
-
 Introduction
 ------------
 
-This bundle is a facade for the search service. It simplifies content querying.
+This bundle brings a content query language for eZ Publish 5. It's a facade for the search service. It simplifies content querying.
 
 .. code-block:: php
 

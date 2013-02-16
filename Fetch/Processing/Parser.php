@@ -12,13 +12,26 @@
  */
 
 namespace Aw\Ezp\FetchBundle\Fetch\Processing;
+
 use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Yaml\Exception\ParseException;
+use Aw\Ezp\FetchBundle\Fetch\Exception\CqlParseException;
 
 class Parser
 {
 
     public function parse($input)
     {
-        return is_array($input)? $input : Yaml::parse($input);
+        return is_array($input)? $input : $this->doParse($input);
+    }
+
+    protected function doParse($input)
+    {
+        try {
+            return (array) Yaml::Parse($input);
+        } catch (ParseException $e) {
+
+            throw new CqlParseException($e, $input);
+        }
     }
 }
